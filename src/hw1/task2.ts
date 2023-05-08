@@ -2,13 +2,13 @@ import { createReadStream, createWriteStream, appendFileSync } from 'fs';
 import path from 'path';
 import csv from 'csvtojson';
 import { pipeline } from 'stream';
+import { EventEmitter } from 'events';
 
 const CSV_FILE_PATH = path.join(__dirname, './input.csv');
 const TEXT_FILE_PATH = path.join(__dirname, './output.txt')
 const writeStream = createWriteStream(TEXT_FILE_PATH);
 const readStream = createReadStream(CSV_FILE_PATH);
 const converter = csv({ delimiter: [';', ',', '|'] });
-const { EventEmitter } = require('events');
 
 const parseCsvWithPipeline = () => {
   pipeline(
@@ -51,7 +51,7 @@ const parseCsvWithEvents = () => {
     });
 
   eventEmitter.on('data', (data: string) => {
-    writeStream.write(data + '\n');
+    writeStream.write(data);
   });
 
   eventEmitter.on('error', (err: Error) => {

@@ -1,0 +1,36 @@
+{
+  "name": "node-mentoring",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "@babel/preset-env": "^7.21.5",
+    "@types/node": "^18.16.3",
+    "nodemon": "^2.0.22",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  },
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "delete-js-files": "rimraf --glob src/**/*.js",
+    "start": "npm run build && node build/index.js",
+    "start:dev": "npx nodemon",
+    "start:task1-1": "nodemon --watch ./src/hw1/*.ts --exec ts-node ./src/hw1/task1.ts",
+    "start:task1-2": "nodemon --watch ./src/hw1/*.ts --exec ts-node ./src/hw1/task2.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olajbanyasz/node-mentoring.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olajbanyasz/node-mentoring/issues"
+  },
+  "homepage": "https://github.com/olajbanyasz/node-mentoring#readme",
+  "description": ""
+}

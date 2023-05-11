@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { users, User } from '../db/users';
 import { v4 as uuidv4 } from 'uuid';
+import { userSchema } from '../models/user';
 
 export const getUsers = (req: Request, res: Response, next: NextFunction): void => {
     const { loginSubstring, limit } = req.query;
@@ -18,7 +19,7 @@ export const getUser = (req: Request, res: Response, next: NextFunction): void =
     if (selectedUser) {
         res.status(200).json(selectedUser);
     } else {
-        res.status(404).json('User does not exist');
+        res.status(400).json('User does not exist');
     }
     next();
 };
@@ -29,7 +30,7 @@ export const deleteUser = (req: Request, res: Response, next: NextFunction): voi
         selectedUser.isDeleted = true;
         res.status(200).json('Deleted success');
     } else {
-        res.status(404).json('Delete failed');
+        res.status(400).json('User does not exist');
     }
     next();
 };
@@ -44,8 +45,14 @@ export const addUser = (req: Request, res: Response, next: NextFunction): void =
         age: req.body.age
     };
 
-    users.push(newUser);
-    res.status(200).json('New user is created');
+    const { error } = userSchema.validate(newUser);
+    
+    if (error) {
+        res.status(400).json(error.details);
+    } else {
+        users.push(newUser);
+        res.status(200).json('New user is created');
+    }
     next();
 };
 
@@ -54,7 +61,7 @@ export const updateUser = (req: Request, res: Response, next: NextFunction): voi
     const index : number = users.findIndex(user => user.id === req.params.id);
 
     if (index === -1) {
-        res.status(404).json('User does not exist');
+        res.status(400).json('User does not exist');
     } else {
         const user : User = users[index];
         const requestData: Partial<User> = {
@@ -63,8 +70,14 @@ export const updateUser = (req: Request, res: Response, next: NextFunction): voi
             age: req.body.age || user.age
         };
         const updatedUser: User = Object.assign({}, users[index], requestData);
-        users[index] = updatedUser;
-        res.status(200).json('User is updated');
+        const { error } = userSchema.validate(updatedUser);
+    
+        if (error) {
+            res.status(400).json(error.details);
+        } else {
+            users[index] = updatedUser;
+            res.status(200).json('User is updated');
+        }
     }
 
     next();

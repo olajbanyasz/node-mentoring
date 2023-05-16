@@ -1,10 +1,10 @@
 import bodyParser = require('body-parser');
-import userRouter from "./routers/user-router";
+import userRouter from './routers/user-router';
 import homeRouter from './routers/home-router';
 import express, { Request, Response, Express } from 'express';
 
-const app : Express = express();
-const PORT : string | number = process.env.PORT || 3000;
+const app: Express = express();
+const PORT: string | number = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use('/', homeRouter);

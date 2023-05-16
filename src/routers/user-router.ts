@@ -1,7 +1,13 @@
 import express, { Router } from 'express';
-import { getUsers, getUser, deleteUser, addUser, updateUser } from '../controllers/user-controller';
+import {
+  getUsers,
+  getUser,
+  deleteUser,
+  addUser,
+  updateUser,
+} from '../controllers/user-controller';
 
-const userRouter : Router = express.Router();
+const userRouter: Router = express.Router();
 
 userRouter.get('/', getUsers);
 userRouter.get('/:id', getUser);

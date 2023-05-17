@@ -1,7 +1,7 @@
 {
   "name": "node-mentoring",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",
     "@types/express": "^4.17.17",
@@ -29,9 +29,9 @@
   "scripts": {
     "build": "rimraf ./build && tsc",
     "delete-js-files": "rimraf --glob src/**/*.js",
-    "start": "npm run build && node build/index.js",
+    "start": "npm run build && node build/app.js",
     "start:dev": "npx nodemon",
-    "start:server": "nodemon --watch ./src/**/*.ts && tsc && node build/src/server.js",
+    "start:server": "nodemon --watch ./src/**/*.ts && tsc && node build/src/app.js",
     "start:task1-1": "nodemon --watch ./src/hw1/*.ts --exec ts-node ./src/hw1/task1.ts",
     "start:task1-2": "nodemon --watch ./src/hw1/*.ts --exec ts-node ./src/hw1/task2.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

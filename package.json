@@ -16,14 +16,20 @@
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.0",
+    "sequelize-cli": "^6.6.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-joi-validation": "^5.0.1",
     "joi": "^17.9.2",
+    "pg": "^8.11.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.31.1",
+    "sqlite3": "^5.1.6",
     "uuid": "^9.0.0"
   },
   "scripts": {

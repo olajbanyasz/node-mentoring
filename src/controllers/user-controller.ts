@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { users, User } from '../db/users';
 import { v4 as uuidv4 } from 'uuid';
-import { userSchema } from '../models/user';
+import { userSchemaWithId } from '../models/userSchema';
 
 export const getUsers = (
   req: Request,
@@ -74,7 +74,7 @@ export const addUser = (
     age: req.body.age,
   };
 
-  const { error } = userSchema.validate(newUser);
+  const { error } = userSchemaWithId.validate(newUser);
 
   if (error) {
     res.status(400).json(error.details);
@@ -102,7 +102,7 @@ export const updateUser = (
       age: req.body.age || user.age,
     };
     const updatedUser: User = Object.assign({}, users[index], requestData);
-    const { error } = userSchema.validate(updatedUser);
+    const { error } = userSchemaWithId.validate(updatedUser);
 
     if (error) {
       res.status(400).json(error.details);

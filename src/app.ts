@@ -1,8 +1,7 @@
-import bodyParser = require('body-parser');
-import express from 'express';
-import { sq } from './data-access/db';
+import bodyParser from 'body-parser';
+import express, { Express} from 'express';
 import dotenv from 'dotenv';
-import routers from './routers/';
+import routers from './routers';
 
 const app: Express = express();
 dotenv.config();

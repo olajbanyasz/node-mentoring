@@ -1,16 +1,11 @@
 import UserService from '../services/user.service';
-import { Request, Response, NextFunction } from 'express';
-import { userSchema } from '../models/userSchema';
+import { Request, Response } from 'express';
 import { User } from 'src/db/users';
 import { StatusCodes } from 'http-status-codes';
 
 const userService = new UserService();
 
-export async function getUsers(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> {
+export async function getUsers(req: Request, res: Response): Promise<void> {
   const loginSubstring = req.query.loginSubstring;
   const limit = req.query.limit;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,31 +32,15 @@ export async function getUsers(
   } else {
     res.status(StatusCodes.OK).json(users);
   }
-  next();
 }
 
-export async function addUser(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> {
+export async function addUser(req: Request, res: Response): Promise<void> {
   const login: string = req.body.login;
   const password: string = req.body.password;
   const age: number = req.body.age;
 
-  const { error } = userSchema.validate(req.body);
-
-  try {
-    if (error) {
-      res.status(StatusCodes.NOT_FOUND).json(error.details);
-    } else {
-      await userService.createUser(login, password, age);
-      res.status(StatusCodes.OK).json('New user is created');
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  next();
+  await userService.createUser(login, password, age);
+  res.status(StatusCodes.OK).json('New user is created');
 }
 
 export async function deleteUser(req: Request, res: Response): Promise<void> {
@@ -80,10 +59,7 @@ export async function getUser(req: Request, res: Response): Promise<void> {
   }
 }
 
-export async function updateUser(
-  req: Request,
-  res: Response,
-): Promise<void> {
+export async function updateUser(req: Request, res: Response): Promise<void> {
   const userId = Number(req.params.id);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: User | any = await userService.getUser(userId);

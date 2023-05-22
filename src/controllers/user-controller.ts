@@ -51,10 +51,8 @@ export const deleteUser = (req: Request, res: Response): void => {
 export const addUser = (req: Request, res: Response): void => {
   const newUser: User = {
     id: uuidv4(),
-    login: req.body.login,
-    password: req.body.password,
     isDeleted: false,
-    age: req.body.age,
+    ...req.body
   };
 
   users.push(newUser);

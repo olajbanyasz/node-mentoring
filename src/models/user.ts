@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const userSchema = Joi.object({
-  id: Joi.string().required(),
+  id: Joi.string(),
 
   login: Joi.string().required(),
 
@@ -12,5 +12,5 @@ export const userSchema = Joi.object({
 
   age: Joi.number().integer().min(4).max(130).required(),
 
-  isDeleted: Joi.boolean().required(),
+  isDeleted: Joi.boolean(),
 });

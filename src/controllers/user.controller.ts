@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const userService = new UserService();
 
-export async function getUsers(req: Request, res: Response): Promise<void> {
+export async function getUserList(req: Request, res: Response): Promise<void> {
   const loginSubstring = req.query.loginSubstring;
   const limit = req.query.limit;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +30,18 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
       .status(StatusCodes.OK)
       .json(responseData.filter((user) => !user.isDeleted));
   } else {
+    res.status(StatusCodes.OK).json(users);
+  }
+}
+
+export async function getUsers(req: Request, res: Response) {
+  const loginSubstring = typeof(req.query.loginSubstring) === 'string' ? req.query.loginSubstring : '';
+  const limit = typeof(req.query.limit) === 'string' && typeof(Number(req.query.limit)) === 'number'? req.query.limit : '';
+  if (loginSubstring || limit) {
+    const users : User[] | any[] = await userService.getSortedUserList(loginSubstring, limit);
+    res.status(StatusCodes.OK).json(users);
+  } else {
+    const users : User[] | any[] = await userService.getAllUsers();
     res.status(StatusCodes.OK).json(users);
   }
 }

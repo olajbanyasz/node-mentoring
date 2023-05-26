@@ -1,7 +1,4 @@
-import dotenv from 'dotenv';
 import { Sequelize, Dialect } from 'sequelize';
-
-dotenv.config();
 
 const dialect: Dialect = process.env.DB_DIALECT as Dialect;
 const port = Number(process.env.DB_PORT);

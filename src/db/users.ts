@@ -1,9 +1,9 @@
 export interface User {
-  id: string;
+  id: string | number;
   login: string;
   password: string;
   age: number;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 const Bela: User = {

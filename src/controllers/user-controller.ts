@@ -32,7 +32,7 @@ export const getUser = (req: Request, res: Response): void => {
   if (user) {
     res.status(StatusCodes.OK).json(user);
   } else {
-    res.status(StatusCodes.BAD_REQUEST).json('User does not exist');
+    res.status(StatusCodes.NOT_FOUND).json('User does not exist');
   }
 };
 
@@ -44,7 +44,7 @@ export const deleteUser = (req: Request, res: Response): void => {
     user.isDeleted = true;
     res.status(StatusCodes.OK).json('Deleted success');
   } else {
-    res.status(StatusCodes.BAD_REQUEST).json('User does not exist');
+    res.status(StatusCodes.NOT_FOUND).json('User does not exist');
   }
 };
 
@@ -65,7 +65,7 @@ export const updateUser = (req: Request, res: Response): void => {
   );
 
   if (!user) {
-    res.status(StatusCodes.BAD_REQUEST).json('User does not exist');
+    res.status(StatusCodes.NOT_FOUND).json('User does not exist');
   } else {
     users.map((u) => {
       if (u.id === user.id) return { ...req.body };

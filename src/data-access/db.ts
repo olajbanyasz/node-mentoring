@@ -1,4 +1,6 @@
 import { Sequelize, Dialect } from 'sequelize';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const dialect: Dialect = process.env.DB_DIALECT as Dialect;
 const port = Number(process.env.DB_PORT);
@@ -19,13 +21,3 @@ export const sq : Sequelize = new Sequelize(
         port: port
     },
 );
-
-
-export const testDbConnection : () => Promise<void> = async () => {
-    try {
-        sq.authenticate();
-        console.log("Connection has been established successfully.");
-        } catch (error) {
-        console.error("Unable to connect to the database:", error);
-        }
-    };

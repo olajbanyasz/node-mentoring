@@ -3,15 +3,11 @@ import UserModel from '../models/user.model';
 import sequelize from 'sequelize';
 
 async function createUser (login: string, password: string, age: number) {
-    await UserModel.create({login,password,age}, {
-        fields:['login','password','age','isDeleted']
-    });
+    await UserModel.create({login,password,age});
 };
 
 async function getAllUsers () {
-    const users = await UserModel.findAll({
-        attributes: ['id','login','password','age','isDeleted']
-    })
+    const users = await UserModel.findAll();
     return users;
 };
 
@@ -21,8 +17,7 @@ async function getSortedUserList(loginSubstring: string, limit: string) {
             login: sequelize.where(sequelize.fn('LOWER', sequelize.col('login')), 'LIKE', '%' + loginSubstring.toLowerCase() + '%')
         },
         order: [['login', 'ASC']],
-        limit: Number(limit),
-        attributes: ['id','login','password','age','isDeleted']
+        limit: Number(limit)
     })
     return users;
 }
@@ -46,9 +41,7 @@ async function updateUser (user : User) {
 };
 
 async function getUser (id: number) {
-    const user = await UserModel.findByPk( id, {
-        attributes: ['id','login','password','age','isDeleted']
-    });
+    const user = await UserModel.findByPk( id );
     return user;
 };
 

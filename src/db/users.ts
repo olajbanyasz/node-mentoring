@@ -1,10 +1,4 @@
-export interface User {
-  id: string | number;
-  login: string;
-  password: string;
-  age: number;
-  isDeleted?: boolean;
-}
+import { User } from '../utils/shapes';
 
 const Bela: User = {
   id: '1',

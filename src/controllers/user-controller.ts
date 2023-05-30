@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { users, User } from '../db/users';
+import { users } from '../db/users';
 import { v4 as uuidv4 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
+import { User } from '../utils/shapes';
 
 export const getUsers = (req: Request, res: Response): void => {
   const { loginSubstring, limit } = req.query;

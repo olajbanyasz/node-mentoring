@@ -6,9 +6,7 @@ import { userSchemaWithId } from '../models/userSchema';
 function userCheck() {
   return async function (req: Request, res: Response, next: NextFunction) {
     const id: string = req.params.id;
-    const user = await UserModel.findByPk(id, {
-      attributes: ['id', 'login', 'password', 'age', 'isDeleted'],
-    });
+    const user = await UserModel.findByPk(id);
 
     const { error } = userSchemaWithId.validate(user?.dataValues);
 

@@ -8,7 +8,7 @@ import {
 } from '../controllers/user.controller';
 import userCheck from '../middlewares/user-check';
 
-import { userSchema } from '../models/user';
+import { userSchema } from '../models/userSchema';
 import { createValidator } from 'express-joi-validation';
 const userValidator = createValidator();
 

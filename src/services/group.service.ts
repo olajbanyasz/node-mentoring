@@ -1,7 +1,5 @@
 import { Group, Permission } from '../utils/shapes';
 import GroupModel from '../models/group.model';
-import User_Group from '../models/userGroup.model';
-import { sq } from '../data-access/db';
 
 async function createGroup(name: string, permissions: Array<Permission>) {
   await GroupModel.create({ name, permissions });

@@ -1,4 +1,4 @@
-import { User } from 'src/db/users';
+import { User } from '../utils/shapes';
 import UserModel from '../models/user.model';
 import sequelize from 'sequelize';
 

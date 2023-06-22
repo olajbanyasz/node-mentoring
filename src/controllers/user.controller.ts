@@ -1,6 +1,6 @@
 import UserService from '../services/user.service';
 import { Request, Response } from 'express';
-import { User } from 'src/db/users';
+import { User } from '../utils/shapes';
 import { StatusCodes } from 'http-status-codes';
 
 const userService = new UserService();

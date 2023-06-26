@@ -1,7 +1,6 @@
 import UserService from '../services/user.service';
-import { Request, Response } from 'express';
-import { User } from '../utils/shapes';
-import { StatusCodes } from 'http-status-codes';
+import { NextFunction, Request, Response } from 'express';
+import { User tusCodes } from 'http-status-codes';
 
 const userService = new UserService();
 
@@ -34,48 +33,65 @@ export async function getUserList(req: Request, res: Response): Promise<void> {
   }
 }
 
-export async function getUsers(req: Request, res: Response) {
-  const loginSubstring = typeof(req.query.loginSubstring) === 'string' ? req.query.loginSubstring : '';
-  const limit = typeof(req.query.limit) === 'string' && typeof(Number(req.query.limit)) === 'number'? req.query.limit : '';
-  if (loginSubstring || limit) {
-    const users : User[] | any[] = await userService.getSortedUserList(loginSubstring, limit);
-    res.status(StatusCodes.OK).json(users);
-  } else {
-    const users : User[] | any[] = await userService.getAllUsers();
-    res.status(StatusCodes.OK).json(users);
-  }
-}
-
-export async function addUser(req: Request, res: Response): Promise<void> {
-  const login: string = req.body.login;
-  const password: string = req.body.password;
-  const age: number = req.body.age;
-
-  await userService.createUser(login, password, age);
-  res.status(StatusCodes.OK).json('New user is created');
-}
-
-export async function deleteUser(req: Request, res: Response): Promise<void> {
-  const userId = Number(req.params.id);
-  await userService.deleteUser(userId);
-  res.status(StatusCodes.OK).json('User is deleted');
-}
-
-export async function getUser(req: Request, res: Response): Promise<void> {
-  const userId = Number(req.params.id);
+export async function getUsers(request: Request, response: Response, next: NextFunction): Promise<void> {
   try {
-    const user = await userService.getUser(userId);
-    res.status(StatusCodes.OK).json(user);
+    const loginSubstring = typeof(request.query.loginSubstring) === 'string' ? request.query.loginSubstring : '';
+    const limit = typeof(request.query.limit) === 'string' && typeof(Number(request.query.limit)) === 'number'? request.query.limit : '';
+    if (loginSubstring || limit) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const users : User[] | any[] = await userService.getSortedUserList(loginSubstring, limit);
+      response.status(StatusCodes.OK).json(users);
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const users : User[] | any[] = await userService.getAllUsers();
+      response.status(StatusCodes.OK).json(users);
+    }
   } catch (error) {
-    res.status(StatusCodes.NOT_FOUND).json('User does not exist');
+    return next(error);
   }
 }
 
-export async function updateUser(req: Request, res: Response): Promise<void> {
-  const userId = Number(req.params.id);
+export async function addUser(request: Request, response: Response, next: NextFunction): Promise<void> {
+  try {
+    const login: string = request.body.login;
+    const password: string = request.body.password;
+    const age: number = request.body.age;
+    await userService.createUser(login, password, age);
+    response.status(StatusCodes.OK).json('New user is created');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function deleteUser(request: Request, response: Response, next: NextFunction): Promise<void> {
+  try {
+    const userId = Number(request.params.id);
+    await userService.deleteUser(userId);
+    response.status(StatusCodes.OK).json('User is deleted');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function getUser(request: Request, response: Response, next: NextFunction): Promise<void> {
+  try {
+    const userId = Number(request.params.id);
+    const user = await userService.getUser(userId);
+    response.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function updateUser(request: Request, response: Response, next: NextFunction): Promise<void> {
+  try {
+  const userId = Number(request.params.id);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: User | any = await userService.getUser(userId);
-  const updatedUser = Object.assign({}, user, req.body);
+  const updatedUser = Object.assign({}, user, request.body);
   await userService.updateUser(updatedUser);
-  res.status(StatusCodes.OK).json('Update success');
+  response.status(StatusCodes.OK).json('Update success');
+  } catch (error) {
+    return next(error);
+  }
 }

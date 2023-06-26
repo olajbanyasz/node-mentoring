@@ -1,27 +1,36 @@
 import UserGroupService from '../services/user-group.service';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 const userGroupService = new UserGroupService();
 
-export async function getUserGroups(req: Request, res: Response) {
-    const groups : any[] = await userGroupService.getUserGroups();
-    res.status(StatusCodes.OK).json(groups);
-};
-
-export async function getUserGroup(req: Request, res: Response): Promise<void> {
-  const id = Number(req.params.id);
+export async function getUserGroups(request: Request, response: Response, next: NextFunction) {
   try {
-    const userGroup = await userGroupService.getUserGroup(id);
-    res.status(StatusCodes.OK).json(userGroup);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const groups : any[] = await userGroupService.getUserGroups();
+    response.status(StatusCodes.OK).json(groups);
   } catch (error) {
-    res.status(StatusCodes.NOT_FOUND).json('Group does not exist');
+    return next(error);
   }
 };
 
-export async function addUsersToGroup(req: Request, res: Response): Promise<void> {
-  const groupId : string = req.params.id;
-  const userIds : Array<string> = req.body.users;
-  await userGroupService.addUsersToGroup(groupId, userIds)
-  res.status(StatusCodes.OK).json('Users added to group');
+export async function getUserGroup(request: Request, response: Response, next: NextFunction) {
+  try {
+    const id = Number(request.params.id);
+    const userGroup = await userGroupService.getUserGroup(id);
+    response.status(StatusCodes.OK).json(userGroup);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export async function addUsersToGroup(request: Request, response: Response, next: NextFunction) {
+  try {
+    const groupId : string = request.params.id;
+    const userIds : Array<string> = request.body.users;
+    await userGroupService.addUsersToGroup(groupId, userIds)
+    response.status(StatusCodes.OK).json('Users added to group');
+  } catch (error) {
+    return next(error);
+  }
 };

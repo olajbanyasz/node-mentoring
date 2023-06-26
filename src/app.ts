@@ -16,6 +16,8 @@ app.use(morganMiddleware);
 app.use(...routers);
 app.use(errorHandler);
 
+sq.sync();
+
 app.listen(PORT, () => {
   sq.sync();
 

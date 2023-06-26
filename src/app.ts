@@ -18,7 +18,6 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
   sq.sync();
-
   logger.info(`Server is listening on http://localhost:${PORT}`);
 });
 

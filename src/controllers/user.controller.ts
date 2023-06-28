@@ -1,6 +1,8 @@
 import UserService from '../services/user.service';
 import { NextFunction, Request, Response } from 'express';
-import { User tusCodes } from 'http-status-codes';
+import { User } from '../utils/shapes';
+import { StatusCodes } from 'http-status-codes';
+import bcrypt from 'bcrypt';
 
 const userService = new UserService();
 
@@ -54,9 +56,9 @@ export async function getUsers(request: Request, response: Response, next: NextF
 export async function addUser(request: Request, response: Response, next: NextFunction): Promise<void> {
   try {
     const login: string = request.body.login;
-    const password: string = request.body.password;
+    const encryptedPassword : string = await bcrypt.hash(request.body.password, 10);;
     const age: number = request.body.age;
-    await userService.createUser(login, password, age);
+    await userService.createUser(login, encryptedPassword, age);
     response.status(StatusCodes.OK).json('New user is created');
   } catch (error) {
     return next(error);

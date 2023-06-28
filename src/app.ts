@@ -6,21 +6,24 @@ import { sq } from './data-access/db';
 import logger from './middlewares/logger';
 import errorHandler from './middlewares/errorHandler';
 import morganMiddleware from './middlewares/morganMiddleware';
+import cors, { CorsOptions } from 'cors';
 
 const app: Express = express();
 dotenv.config();
 const PORT: string | number = process.env.PORT || 3000;
 
+const corsOptions: CorsOptions = {
+  origin: '*'
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(morganMiddleware);
 app.use(...routers);
 app.use(errorHandler);
 
-sq.sync();
-
 app.listen(PORT, () => {
   sq.sync();
-
   logger.info(`Server is listening on http://localhost:${PORT}`);
 });
 

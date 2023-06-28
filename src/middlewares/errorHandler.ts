@@ -7,7 +7,7 @@ const errorHandler = (error: Error, request: Request, response: Response, next: 
         return next();
     }
     logger.error(error.message);
-    response.send(StatusCodes.INTERNAL_SERVER_ERROR);
+    response.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 };
 
 export default errorHandler;

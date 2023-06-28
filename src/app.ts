@@ -17,7 +17,6 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 app.use(morganMiddleware);
 app.use(...routers);

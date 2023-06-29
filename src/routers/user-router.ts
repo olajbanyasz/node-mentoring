@@ -15,7 +15,7 @@ const userValidator = createValidator();
 
 const userRouter: Router = express.Router();
 
-userRouter.get('/users', verifyToken, getUsers);
+userRouter.get('/users', getUsers);
 userRouter.get('/users/:id', userCheck(), getUser);
 userRouter.delete('/users/:id', userCheck(), deleteUser);
 userRouter.post('/users', userValidator.body(userSchema), addUser);

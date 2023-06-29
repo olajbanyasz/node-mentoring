@@ -12,7 +12,6 @@ function userCheck() {
     if (error || !user) {
       res.status(StatusCodes.NOT_FOUND).json('User does not exist');
     } else {
-      console.log('usercheck----------------', user, 'error: ', error);
       next();
     }
   };

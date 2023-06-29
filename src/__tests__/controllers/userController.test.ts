@@ -146,9 +146,9 @@ describe('User controller', () => {
     const user = responseBefore.body[responseBefore.body.length - 1];
     const userId = user.id;
     const url = `/users/${userId}`;
-    const response = await request(app).put(url).send({ login : 'NewUserLogin', age: user.age, password: user.password });
+    const response = await request(app).put(url).send({ login : 'NewUserLogin', age: user.age, password: user.password, id: userId });
     const responseAfter = await request(app).get(`/users/${userId}`);
     expect(response.status).toBe(StatusCodes.OK);
-    expect(responseAfter.status).toBe(StatusCodes.OK);
+    expect(responseAfter.body.login).toBe('NewUserLogin');
   });
 });

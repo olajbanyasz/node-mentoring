@@ -1,11 +1,20 @@
-/* eslint-disable no-empty-pattern */
 import Express, { json } from 'express';
 import request from 'supertest';
 import UserModel from '../../models/user.model';
-import routers from '../../routers/';
 import * as SequelizeFixtures from 'sequelize-fixtures';
 import { sq } from '../../data-access/db';
 import { StatusCodes } from 'http-status-codes';
+
+const mockVerifyToken = jest.fn().mockImplementation((req, res, next) => {
+  next();
+});
+
+jest.mock('../../middlewares/authentication', () => ({
+  __esModule: true,
+  default: mockVerifyToken,
+}));
+
+import routers from '../../routers/';
 
 const initApp = () => {
   const app = Express();
@@ -19,10 +28,6 @@ const clearTable = async () => {
 };
 
 describe('User controller', () => {
-  beforeEach(async () => {
-    jest.resetAllMocks();
-  });
-
   afterAll(async () => {
     await sq.close();
   });

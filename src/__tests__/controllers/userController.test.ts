@@ -7,14 +7,6 @@ import * as SequelizeFixtures from 'sequelize-fixtures';
 import { sq } from '../../data-access/db';
 import { StatusCodes } from 'http-status-codes';
 
-
-jest.mock('../../middlewares/authentication', () =>
-  jest.fn(({}, {}, next) => next()),
-);
-jest.mock('../../middlewares/morganMiddleware', () =>
-  jest.fn(({}, {}, next) => next()),
-);
-
 const initApp = () => {
   const app = Express();
   app.use(json());

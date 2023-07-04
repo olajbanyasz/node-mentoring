@@ -34,3 +34,5 @@ process
   .on('uncaughtException', (error, origin) => {
     logger.error(`UncaughtException: ${error}, origin: ${origin}`);
   });
+
+export default app;

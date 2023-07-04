@@ -31,15 +31,15 @@ async function deleteUser (id: number) {
     }
 };
 
-async function updateUser (user : User) {
+async function updateUser(user: User) {
     const { login, password, age, id, isDeleted } = user;
     try {
-        await UserModel.update({ login, password, age, isDeleted, id }, {where: {id}});
+      await UserModel.update({ login, password, age, isDeleted }, { where: { id } });
     } catch (error: unknown) {
-        console.error(error);
+      console.error(error);
     }
-};
-
+}
+  
 async function getUser (id: number) {
     const user = await UserModel.findByPk( id );
     return user;
